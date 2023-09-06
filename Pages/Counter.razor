@@ -1,0 +1,18 @@
+﻿@page "/CE"
+@inject CEServices cService 
+<PageTitle>Counter</PageTitle>
+
+
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        cService.GetEventCEList();
+        StateHasChanged();
+    }
+
+}
+
