@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+
 namespace FGO_CE_Manager.Data.CEModels
 {
     public class Skills_Function
@@ -8,7 +9,7 @@ namespace FGO_CE_Manager.Data.CEModels
         [Key]
         public int FunctionID { get; set; }
         [JsonPropertyName("svals")]
-        public virtual IEnumerable<Functions_Sval> Svals { get; set; }
+        public virtual ICollection<Functions_Sval> Svals { get; set; }
 
     }
 }

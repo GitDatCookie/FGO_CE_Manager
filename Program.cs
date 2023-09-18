@@ -3,7 +3,7 @@ using FGO_CE_Manager.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +17,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<CEServices>();
 builder.Services.AddTransient<EventServices>();
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 

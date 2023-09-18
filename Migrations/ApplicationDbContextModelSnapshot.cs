@@ -48,7 +48,7 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasIndex("ExtraAssetsID");
 
-                    b.ToTable("CE");
+                    b.ToTable("CE", (string)null);
                 });
 
             modelBuilder.Entity("FGO_CE_Manager.Data.CEModels.CE_ExtraAssets", b =>
@@ -71,7 +71,7 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasIndex("FacesID");
 
-                    b.ToTable("ExtraAssets");
+                    b.ToTable("ExtraAssets", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "extraAssets");
                 });
@@ -91,7 +91,7 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasIndex("CEGuid");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skill", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "skills");
                 });
@@ -110,7 +110,7 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasKey("CharaGraphID");
 
-                    b.ToTable("CharaGraph");
+                    b.ToTable("CharaGraph", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "charaGraph");
                 });
@@ -129,7 +129,7 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasKey("FacesID");
 
-                    b.ToTable("Faces");
+                    b.ToTable("Faces", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "faces");
                 });
@@ -146,14 +146,19 @@ namespace FGO_CE_Manager.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("Relational:JsonPropertyName", "EventId");
 
+                    b.Property<Guid?>("FGOEventID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("Skills_FunctionFunctionID")
                         .HasColumnType("int");
 
                     b.HasKey("SvalID");
 
+                    b.HasIndex("FGOEventID");
+
                     b.HasIndex("Skills_FunctionFunctionID");
 
-                    b.ToTable("Sval");
+                    b.ToTable("Sval", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "svals");
                 });
@@ -173,31 +178,29 @@ namespace FGO_CE_Manager.Migrations
 
                     b.HasIndex("CE_SkillSkillID");
 
-                    b.ToTable("Function");
+                    b.ToTable("Function", (string)null);
 
                     b.HasAnnotation("Relational:JsonPropertyName", "functions");
                 });
 
-            modelBuilder.Entity("FGO_CE_Manager.Data.EventModels.Event", b =>
+            modelBuilder.Entity("FGO_CE_Manager.Data.EventModels.FGOEvent", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("FGOEventID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("EventID")
-                        .HasColumnType("int")
-                        .HasAnnotation("Relational:JsonPropertyName", "id");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "name");
 
-                    b.HasKey("ID");
+                    b.Property<int>("id")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
 
-                    b.ToTable("Event");
+                    b.HasKey("FGOEventID");
+
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("FGO_CE_Manager.Data.CEModels.CE", b =>
@@ -239,9 +242,15 @@ namespace FGO_CE_Manager.Migrations
 
             modelBuilder.Entity("FGO_CE_Manager.Data.CEModels.Functions_Sval", b =>
                 {
+                    b.HasOne("FGO_CE_Manager.Data.EventModels.FGOEvent", "FGOEvent")
+                        .WithMany()
+                        .HasForeignKey("FGOEventID");
+
                     b.HasOne("FGO_CE_Manager.Data.CEModels.Skills_Function", null)
                         .WithMany("Svals")
                         .HasForeignKey("Skills_FunctionFunctionID");
+
+                    b.Navigation("FGOEvent");
                 });
 
             modelBuilder.Entity("FGO_CE_Manager.Data.CEModels.Skills_Function", b =>

@@ -1,20 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FGO_CE_Manager.Data.CEModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace FGO_CE_Manager.Data.EventModels
 {
-    public class Event
+    public class FGOEvent
     {
-        [Key] 
-        public int ID { get; set; }
-
         [JsonPropertyName("id")]
-        public int EventID { get; set; }
+        public int id { get; set; }
+
+        [Key] 
+        public Guid FGOEventID { get; set; }
 
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
 
     }
 }

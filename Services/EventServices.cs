@@ -2,6 +2,7 @@
 using FGO_CE_Manager.Data.CEModels;
 using FGO_CE_Manager.Data.EventModels;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace FGO_CE_Manager.Services
 {
@@ -15,35 +16,54 @@ namespace FGO_CE_Manager.Services
         }
 
 
-        public async void FillEventData()
+        public async Task FillEventDatabase()
         {
+
             using (var httpClient = new HttpClient())
             {
-                var jsonStream = await httpClient.GetStreamAsync(apiLink);
-                using (StreamReader r = new StreamReader(jsonStream))
+                var jsonString = await httpClient.GetStreamAsync(apiLink);
+                DeserializeJson(jsonString);
+            }
+
+        }
+
+        public void DeserializeJson(Stream stream )
+        {
+
+            using (StreamReader r = new StreamReader(stream))
+            {
+                string json = r.ReadToEnd();
                 {
-                    string json = r.ReadToEnd();
+                    var eves = JsonConvert.DeserializeObject<List<FGOEvent>>(json);
+                    foreach (var e in eves)
                     {
-                        var even = JsonConvert.DeserializeObject<List<Event>>(json);
-                        foreach (var ev in even)
-                        {                              
-                            AddEvent(ev);
+                        int eventCheck = e.id;
+                        if(eventCheck > 80000)
+                        {
+                            AddEvent(e);
                         }
+                        
                     }
                 }
             }
         }
 
-        public Event GetEvent(int eventID)
-        {
-            Event even = _context.Event.Where(w => w.EventID == eventID).FirstOrDefault();
-            return even;
-        }
+        //public Event GetEvent(int eventID)
+        //{
+        //    Event even = _context.Event.Where(w => w.EventID == eventID).FirstOrDefault();
+        //    return even;
+        //}
 
-        public void AddEvent(Event even)
+        public void AddEvent(FGOEvent even)
         {
             _context.Add(even);
             _context.SaveChanges();
+        }
+
+        public List<FGOEvent> GetEventList()
+        {
+            var result = _context.Event.ToList();
+            return result;
         }
     }
 }

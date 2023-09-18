@@ -22,7 +22,7 @@ namespace FGO_CE_Manager.Data.CEModels
         public virtual CE_ExtraAssets ExtraAssets { get; set; }
 
         [JsonPropertyName("skills")]
-        public virtual IEnumerable<CE_Skill> Skills { get; set; }
+        public virtual ICollection<CE_Skill> Skills { get; set; }
 
     }
 }

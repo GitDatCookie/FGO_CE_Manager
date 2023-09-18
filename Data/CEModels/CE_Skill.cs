@@ -9,6 +9,6 @@ namespace FGO_CE_Manager.Data.CEModels
         public int SkillID { get; set; }
 
         [JsonPropertyName("functions")]
-        public virtual IEnumerable<Skills_Function> Functions { get; set; }
+        public virtual ICollection<Skills_Function> Functions { get; set; }
     }
 }

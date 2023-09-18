@@ -16,7 +16,7 @@ namespace FGO_CE_Manager.Data
         public DbSet<Skills_Function> Function { get; set; }
 
         //Event
-        public DbSet<Event> Event { get; set; }
+        public DbSet<FGOEvent> Event { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
             : base(options) 
